@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Attractions Recommender</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Local Attractions Recommender</h1>
+            <p>Discover amazing places to visit near you</p>
+        </header>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="location-input" placeholder="Enter a location (city, address)">
+                <button id="search-btn">Find Attractions</button>
+            </div>
+            <div class="options">
+                <select id="category-select">
+                    <option value="tourist_attraction">Tourist Attractions</option>
+                    <option value="restaurant">Restaurants</option>
+                    <option value="museum">Museums</option>
+                    <option value="park">Parks</option>
+                    <option value="shopping_mall">Shopping</option>
+                </select>
+                <select id="radius-select">
+                    <option value="1000">1 km</option>
+                    <option value="2000">2 km</option>
+                    <option value="5000" selected>5 km</option>
+                    <option value="10000">10 km</option>
+                    <option value="20000">20 km</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="current-location-container">
+            <button id="use-current-location">
+                <i class="fas fa-map-marker-alt"></i> Use my current location
+            </button>
+        </div>
+
+        <div id="map"></div>
+
+        <div id="results-container">
+            <h2>Recommended Attractions</h2>
+            <div id="attractions-list"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Local Attractions Recommender</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <!-- Google Maps API with Places library -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_BPBLZ8cITzHU2USSyOy1pVewNyv5DEc&libraries=places&callback=initMap">
+    </script>
+</body>
+</html> 

@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Attractions Recommender</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Your Profile</h3>
+            </div>
+            
+            <div class="sidebar-section">
+                <h4>Recent Searches</h4>
+                <ul class="recent-searches">
+                    {% for search in recent_searches %}
+                    <li class="search-item" data-location="{{ search.location }}" data-category="{{ search.category }}" data-radius="{{ search.radius }}">
+                        <i class="fas fa-search"></i>
+                        <div class="search-details">
+                            <span class="search-location">{{ search.location }}</span>
+                            <span class="search-category">{{ search.category|title }}</span>
+                            <span class="search-time">{{ search.timestamp|date:"M d, g:i A" }}</span>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li class="empty-item">No recent searches</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <h4>Favorites</h4>
+                <ul class="favorites-list">
+                    {% for favorite in favorites %}
+                    <li class="favorite-item" data-id="{{ favorite.id }}" data-lat="{{ favorite.latitude }}" data-lng="{{ favorite.longitude }}">
+                        <i class="fas fa-heart"></i>
+                        <div class="favorite-details">
+                            <span class="favorite-name">{{ favorite.name }}</span>
+                            <span class="favorite-address">{{ favorite.address }}</span>
+                        </div>
+                        <button class="delete-favorite" data-id="{{ favorite.id }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </li>
+                    {% empty %}
+                    <li class="empty-item">No favorites saved</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h1>Local Attractions Recommender</h1>
+                <p>Discover amazing places to visit near you</p>
+            </header>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="location-input" placeholder="Enter a location (city, address)">
+                    <button id="search-btn">Find Attractions</button>
+                </div>
+                <div class="options">
+                    <select id="category-select">
+                        <option value="tourist_attraction" {% if default_category == 'tourist_attraction' %}selected{% endif %}>Tourist Attractions</option>
+                        <option value="restaurant" {% if default_category == 'restaurant' %}selected{% endif %}>Restaurants</option>
+                        <option value="museum" {% if default_category == 'museum' %}selected{% endif %}>Museums</option>
+                        <option value="park" {% if default_category == 'park' %}selected{% endif %}>Parks</option>
+                        <option value="shopping_mall" {% if default_category == 'shopping_mall' %}selected{% endif %}>Shopping</option>
+                        <option value="amusement_park" {% if default_category == 'amusement_park' %}selected{% endif %}>Amusement Parks</option>
+                        <option value="zoo" {% if default_category == 'zoo' %}selected{% endif %}>Zoos</option>
+                        <option value="art_gallery" {% if default_category == 'art_gallery' %}selected{% endif %}>Art Galleries</option>
+                    </select>
+                    <select id="radius-select">
+                        <option value="1000" {% if default_radius == '1000' %}selected{% endif %}>1 km</option>
+                        <option value="2000" {% if default_radius == '2000' %}selected{% endif %}>2 km</option>
+                        <option value="5000" {% if default_radius == '5000' %}selected{% endif %}>5 km</option>
+                        <option value="10000" {% if default_radius == '10000' %}selected{% endif %}>10 km</option>
+                        <option value="20000" {% if default_radius == '20000' %}selected{% endif %}>20 km</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="current-location-container">
+                <button id="use-current-location">
+                    <i class="fas fa-map-marker-alt"></i> Use my current location
+                </button>
+            </div>
+
+            <div id="map-container">
+                <div id="map"></div>
+                <div class="map-controls">
+                    <button id="toggle-satellite"><i class="fas fa-globe"></i> Satellite</button>
+                    <button id="toggle-traffic"><i class="fas fa-car"></i> Traffic</button>
+                    <button id="center-map"><i class="fas fa-crosshairs"></i> Center</button>
+                </div>
+            </div>
+
+            <div id="results-container">
+                <div class="results-header">
+                    <h2>Recommended Attractions</h2>
+                    <div class="results-actions">
+                        <button id="sort-rating"><i class="fas fa-sort"></i> Rating</button>
+                        <button id="toggle-view"><i class="fas fa-th-list"></i> List View</button>
+                    </div>
+                </div>
+                <div id="attractions-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Local Attractions Recommender</p>
+    </footer>
+
+    <!-- Template for attraction cards (hidden) -->
+    <template id="attraction-card-template">
+        <div class="attraction-card">
+            <div class="card-actions">
+                <button class="favorite-btn" title="Add to favorites">
+                    <i class="far fa-heart"></i>
+                </button>
+                <button class="directions-btn" title="Get directions">
+                    <i class="fas fa-directions"></i>
+                </button>
+            </div>
+            <img class="attraction-image" src="" alt="">
+            <div class="attraction-details">
+                <h3 class="attraction-name"></h3>
+                <p class="attraction-address"></p>
+                <p class="attraction-rating"></p>
+                <p class="attraction-open"></p>
+            </div>
+        </div>
+    </template>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Pass Django variables to JavaScript
+        const GOOGLE_MAPS_API_KEY = "{{ google_maps_api_key }}";
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initMap">
+    </script>
+</body>
+</html> 
