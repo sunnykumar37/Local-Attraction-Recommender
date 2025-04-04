@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import SearchHistory, Favorite, UserPreference
+from .models import SearchHistory, Favorite, UserPreference, UserProfile
+from .forms import UserProfileForm
 
 def home(request):
     # Get recent searches for the sidebar
@@ -18,15 +19,38 @@ def home(request):
     default_category = category_prefs.preference_value if category_prefs else 'tourist_attraction'
     default_radius = radius_prefs.preference_value if radius_prefs else '5000'
     
+    # Get user profile or create default
+    profile, created = UserProfile.objects.get_or_create(id=1, defaults={'name': 'Guest User'})
+    
     context = {
         'recent_searches': recent_searches,
         'favorites': favorites,
         'default_category': default_category,
         'default_radius': default_radius,
-        'google_maps_api_key': 'AIzaSyB_BPBLZ8cITzHU2USSyOy1pVewNyv5DEc'
+        'google_maps_api_key': 'AIzaSyB_BPBLZ8cITzHU2USSyOy1pVewNyv5DEc',
+        'profile': profile
     }
     
     return render(request, 'recommender/home.html', context)
+
+def profile(request):
+    # Get or create user profile
+    profile, created = UserProfile.objects.get_or_create(id=1, defaults={'name': 'Guest User'})
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserProfileForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile': profile
+    }
+    
+    return render(request, 'recommender/profile.html', context)
 
 @csrf_exempt
 def save_favorite(request):

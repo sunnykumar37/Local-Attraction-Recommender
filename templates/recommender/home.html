@@ -7,12 +7,154 @@
     <title>Local Attractions Recommender</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid white;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+        }
+        
+        .user-location {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        .edit-profile {
+            color: #3498db;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 1.2rem;
+        }
+        
+        .edit-profile:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-toggle {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-300px);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            body:not(.sidebar-active) .sidebar {
+                transform: translateX(-300px);
+            }
+            
+            body.sidebar-active .sidebar {
+                transform: translateX(0);
+            }
+            
+            body.sidebar-active .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        /* Enhanced hover effects */
+        .search-item, .favorite-item {
+            position: relative;
+            transition: all 0.3s ease;
+            border-left: 0px solid transparent;
+        }
+        
+        .search-item:hover, .favorite-item:hover {
+            background-color: var(--sidebar-item-hover);
+            transform: translateY(-2px);
+            border-left: 4px solid var(--button-primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-item:hover i, .favorite-item:hover i {
+            transform: scale(1.2);
+            color: var(--button-primary);
+        }
+        
+        .search-item i, .favorite-item i {
+            transition: all 0.3s ease;
+        }
+        
+        /* Improved theme toggle visibility */
+        .theme-toggle {
+            font-size: 24px;
+            color: var(--sidebar-text);
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background: rgba(0, 0, 0, 0.4);
+        }
+    </style>
 </head>
 <body>
     <div class="page-container">
         <div class="sidebar">
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
             <div class="sidebar-header">
                 <h3>Your Profile</h3>
+                
+                <div class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+            
+            <!-- User Profile Section -->
+            <div class="user-profile">
+                {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+                {% else %}
+                    <img src="{% static 'img/default-profile.png' %}" alt="Default Profile" class="profile-pic">
+                {% endif %}
+                
+                <div class="user-info">
+                    <div class="user-name">{{ profile.name|default:"Guest User" }}</div>
+                    <div class="user-location">{{ profile.location|default:"Location not set" }}</div>
+                </div>
+                
+                <a href="{% url 'profile' %}" class="edit-profile" title="Edit Profile">
+                    <i class="fas fa-user-edit"></i>
+                </a>
             </div>
             
             <div class="sidebar-section">
@@ -144,6 +286,92 @@
     <script>
         // Pass Django variables to JavaScript
         const GOOGLE_MAPS_API_KEY = "{{ google_maps_api_key }}";
+        
+        // Theme switching and sidebar toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for saved theme preference
+            const currentTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Apply saved theme or default
+            if (currentTheme === 'dark-mode') {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            // Toggle dark/light mode
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark-mode');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    localStorage.setItem('theme', '');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            });
+            
+            // Sidebar toggle for mobile
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            
+            // Check if screen is mobile and set initial state
+            if (window.innerWidth <= 768) {
+                document.body.classList.remove('sidebar-active');
+                
+                // Make toggle button visible on mobile
+                sidebarToggle.style.display = 'flex';
+            }
+            
+            sidebarToggle.addEventListener('click', function() {
+                document.body.classList.toggle('sidebar-active');
+                
+                // Update icon
+                const icon = this.querySelector('i');
+                if (document.body.classList.contains('sidebar-active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    document.body.classList.remove('sidebar-active');
+                }
+            });
+            
+            // Enhanced hover effects for sidebar items
+            const sidebarItems = document.querySelectorAll('.search-item, .favorite-item');
+            sidebarItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                    this.style.borderLeft = '4px solid var(--button-primary)';
+                    const icon = this.querySelector('i');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.2)';
+                        icon.style.color = 'var(--button-primary)';
+                    }
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                    this.style.borderLeft = '0px solid transparent';
+                    const icon = this.querySelector('i');
+                    if (icon) {
+                        icon.style.transform = 'scale(1)';
+                        icon.style.color = '';
+                    }
+                });
+            });
+        });
     </script>
     <script src="{% static 'js/script.js' %}"></script>
     <script async defer

@@ -33,3 +33,13 @@ class UserPreference(models.Model):
 
     def __str__(self):
         return f"{self.preference_type}: {self.preference_value}"
+
+class UserProfile(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    bio = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return self.name if self.name else "Anonymous User"

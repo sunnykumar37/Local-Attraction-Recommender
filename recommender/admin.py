@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SearchHistory, Favorite, UserPreference
+from .models import SearchHistory, Favorite, UserPreference, UserProfile
 
 @admin.register(SearchHistory)
 class SearchHistoryAdmin(admin.ModelAdmin):
@@ -20,3 +20,9 @@ class UserPreferenceAdmin(admin.ModelAdmin):
     list_display = ('preference_type', 'preference_value', 'timestamp')
     list_filter = ('preference_type',)
     ordering = ('-timestamp',)
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('name', 'location', 'date_joined')
+    search_fields = ('name', 'location')
+    ordering = ('-date_joined',)
