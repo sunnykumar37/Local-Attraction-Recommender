@@ -46,6 +46,7 @@
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 20px;
 }
 
 body {
@@ -65,10 +66,10 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 300px;
+    width: 350px;
     background-color: var(--sidebar-bg);
     color: var(--sidebar-text);
-    padding: 20px;
+    padding: 30px;
     height: 100vh;
     position: fixed;
     left: 0;
@@ -118,7 +119,7 @@ body {
 }
 
 .sidebar-header h3 {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     font-weight: 600;
     letter-spacing: 0.5px;
     position: relative;
@@ -130,12 +131,12 @@ body {
 
 /* Theme Toggle Icon */
 .theme-toggle {
-    font-size: 22px;
+    font-size: 28px;
     color: var(--sidebar-text);
     cursor: pointer;
     background: rgba(0, 0, 0, 0.2);
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -174,8 +175,8 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
-    margin-left: 300px;
-    padding: 20px;
+    margin-left: 350px;
+    padding: 30px;
     transition: margin-left 0.3s ease;
 }
 
@@ -194,11 +195,11 @@ body {
 }
 
 .sidebar-section h4 {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
     color: #ecf0f1;
     position: relative;
-    padding-left: 10px;
+    padding-left: 15px;
     letter-spacing: 0.5px;
 }
 
@@ -221,9 +222,9 @@ body {
 
 .search-item, .favorite-item {
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 12px;
+    padding: 18px 22px;
+    border-radius: 10px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
@@ -288,17 +289,15 @@ body {
 }
 
 .search-location, .favorite-name {
-    display: block;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 3px;
-    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #ecf0f1;
 }
 
 .search-category, .search-time, .favorite-address {
-    display: block;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+    color: #bdc3c7;
 }
 
 .delete-favorite {
@@ -336,46 +335,45 @@ body {
 /* Header */
 header {
     text-align: center;
-    margin-bottom: 30px;
-    padding: 30px 0;
+    margin-bottom: 40px;
+    padding: 50px 20px;
     background: var(--header-gradient);
     color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 15px 15px;
 }
 
 header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    font-size: 3.4rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
 }
 
 header p {
-    font-size: 1.1rem;
+    font-size: 1.8rem;
+    opacity: 0.85;
 }
 
 /* Search Container */
 .search-container {
     background-color: var(--card-bg);
-    padding: 25px;
-    border-radius: 10px;
+    padding: 40px;
+    border-radius: 20px;
     box-shadow: var(--card-shadow);
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .search-box {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 .search-box input {
     flex: 1;
-    padding: 15px;
-    border: 1px solid var(--input-border);
-    border-radius: 8px 0 0 8px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-    background-color: var(--bg-color);
+    padding: 25px 30px;
+    border: 2px solid var(--input-border);
+    border-radius: 15px 0 0 15px;
+    font-size: 24px;
+    background-color: var(--search-bg);
     color: var(--text-color);
 }
 
@@ -385,14 +383,14 @@ header p {
 }
 
 .search-box button {
-    padding: 15px 25px;
     background-color: var(--button-primary);
     color: white;
     border: none;
-    border-radius: 0 8px 8px 0;
+    padding: 25px 35px;
+    border-radius: 0 15px 15px 0;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .search-box button:hover {
@@ -401,24 +399,19 @@ header p {
 
 .options {
     display: flex;
-    gap: 15px;
+    gap: 25px;
 }
 
 .options select {
-    flex: 1;
-    padding: 12px 15px;
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    background-color: var(--bg-color);
+    padding: 22px 30px;
+    border: 2px solid var(--input-border);
+    border-radius: 15px;
+    margin-right: 25px;
+    background-color: var(--search-bg);
     color: var(--text-color);
-    font-size: 15px;
     cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 16px;
-    padding-right: 40px;
+    font-size: 22px;
+    min-width: 240px;
 }
 
 .options select:focus {
@@ -433,15 +426,18 @@ header p {
 }
 
 #use-current-location {
-    background-color: #a777e3;
+    background-color: var(--button-secondary);
     color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 30px;
+    padding: 22px 35px;
+    border-radius: 15px;
     cursor: pointer;
-    font-size: 15px;
-    transition: all 0.3s;
-    box-shadow: 0 3px 10px rgba(167, 119, 227, 0.3);
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 30px auto;
+    min-width: 320px;
 }
 
 #use-current-location:hover {
@@ -454,43 +450,49 @@ header p {
     transform: translateY(0);
 }
 
+#use-current-location i {
+    font-size: 22px;
+}
+
 /* Map Container */
 #map-container {
     position: relative;
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
-    margin-bottom: 30px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 }
 
 #map {
-    height: 500px;
+    height: 650px;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .map-controls {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     z-index: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
 
 .map-controls button {
     background-color: white;
     border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 18px 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 20px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 12px;
 }
 
 .map-controls button:hover {
@@ -498,27 +500,31 @@ header p {
     transform: translateY(-2px);
 }
 
+.map-controls button i {
+    font-size: 20px;
+}
+
 /* Results Container */
 #results-container {
     background-color: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
 }
 
 .results-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f0f3f8;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #f0f3f8;
 }
 
 .results-header h2 {
     color: #2c3e50;
-    font-size: 1.5rem;
+    font-size: 2.8rem;
 }
 
 .results-actions {
@@ -529,31 +535,35 @@ header p {
 .results-actions button {
     background-color: #f0f3f8;
     border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
+    border-radius: 10px;
+    padding: 18px 25px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 20px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 12px;
 }
 
 .results-actions button:hover {
     background-color: #e4e8f0;
 }
 
+.results-actions button i {
+    font-size: 20px;
+}
+
 #attractions-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 30px;
 }
 
 .attraction-card {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
 }
@@ -576,13 +586,14 @@ header p {
     background-color: rgba(255, 255, 255, 0.8);
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
+    font-size: 20px;
 }
 
 .card-actions button:hover {
@@ -600,25 +611,25 @@ header p {
 
 .attraction-image {
     width: 100%;
-    height: 200px;
+    height: 250px;
     object-fit: cover;
 }
 
 .attraction-details {
-    padding: 15px;
+    padding: 25px;
 }
 
 .attraction-name {
-    font-size: 18px;
+    font-size: 26px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
     color: #2c3e50;
 }
 
 .attraction-address, .attraction-rating, .attraction-open {
-    font-size: 14px;
+    font-size: 18px;
     color: #7f8c8d;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .attraction-rating {
@@ -678,28 +689,29 @@ header p {
 /* Footer */
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 30px;
     background-color: #2c3e50;
     color: #ecf0f1;
     margin-top: auto;
+    font-size: 18px;
 }
 
 /* Info Window */
 .info-window {
-    padding: 10px;
-    max-width: 250px;
+    padding: 15px;
+    max-width: 300px;
 }
 
 .info-window h3 {
-    font-size: 16px;
-    margin-bottom: 5px;
+    font-size: 18px;
+    margin-bottom: 8px;
     color: #2c3e50;
 }
 
 .info-window p {
-    font-size: 14px;
+    font-size: 16px;
     color: #7f8c8d;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 
 .info-window .open {
@@ -718,17 +730,25 @@ body.sidebar-active .sidebar {
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .sidebar {
-        width: 250px;
+        width: 300px;
     }
     
     .main-content {
-        margin-left: 250px;
+        margin-left: 300px;
+    }
+    
+    #attractions-list {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
 }
 
 @media (max-width: 768px) {
+    * {
+        font-size: 16px;
+    }
+    
     .page-container {
         flex-direction: column;
     }
@@ -737,11 +757,21 @@ body.sidebar-active .sidebar {
         width: 100%;
         height: auto;
         position: static;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
+        padding: 20px;
     }
     
     .main-content {
         margin-left: 0;
+        padding: 20px;
+    }
+    
+    header h1 {
+        font-size: 2.4rem;
+    }
+    
+    header p {
+        font-size: 1.4rem;
     }
     
     .search-box {
@@ -750,24 +780,40 @@ body.sidebar-active .sidebar {
     
     .search-box input, .search-box button {
         width: 100%;
-        border-radius: 8px;
-        margin-bottom: 10px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        font-size: 18px;
+        padding: 15px 20px;
     }
     
     .options {
         flex-direction: column;
     }
     
+    .options select {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
     #map {
-        height: 300px;
+        height: 400px;
     }
     
     #attractions-list {
         grid-template-columns: 1fr;
     }
     
-    .list-view .attraction-card {
-        grid-template-columns: 100px 1fr;
+    .results-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .attraction-card {
+        border-radius: 12px;
+    }
+    
+    .attraction-name {
+        font-size: 22px;
     }
     
     .sidebar-toggle {

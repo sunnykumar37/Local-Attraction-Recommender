@@ -3,27 +3,169 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Local Attractions Recommender</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        /* Force all elements to use larger text and maintain larger sizing */
+        * {
+            font-size: 22px !important;
+        }
+        
+        h1 {
+            font-size: 3.5rem !important;
+        }
+        
+        h2 {
+            font-size: 2.8rem !important;
+        }
+        
+        h3, h4 {
+            font-size: 2rem !important;
+        }
+        
+        p, span, button, input, select, option {
+            font-size: 1.3rem !important;
+        }
+        
+        .fa, .fas, .far, .fal, .fab {
+            font-size: 1.5rem !important;
+        }
+        
+        /* Sidebar styling */
+        .sidebar {
+            width: 400px !important;
+            padding: 35px !important;
+        }
+        
+        .main-content {
+            margin-left: 400px !important;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 40px !important;
+        }
+        
+        .sidebar-header {
+            padding-bottom: 25px !important;
+            margin-bottom: 35px !important;
+        }
+        
+        /* Override search container styling */
+        .search-container {
+            padding: 45px !important;
+            border-radius: 25px !important;
+            margin-bottom: 45px !important;
+        }
+        
+        .search-box input {
+            padding: 25px 30px !important;
+            font-size: 26px !important;
+            border-width: 3px !important;
+            border-radius: 15px 0 0 15px !important;
+        }
+        
+        .search-box button {
+            padding: 25px 35px !important;
+            font-size: 26px !important;
+            border-radius: 0 15px 15px 0 !important;
+        }
+        
+        .options select {
+            padding: 20px 30px !important;
+            font-size: 24px !important;
+            border-width: 3px !important;
+            min-width: 250px !important;
+        }
+        
+        /* Current location button */
+        #use-current-location {
+            padding: 25px 40px !important;
+            border-radius: 15px !important;
+            font-size: 24px !important;
+            margin: 35px auto !important;
+            min-width: 350px !important;
+            display: block !important;
+        }
+        
+        /* Map container */
+        #map {
+            height: 700px !important;
+            border-radius: 25px !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
+            margin-bottom: 45px !important;
+        }
+        
+        /* Map controls */
+        .map-controls button {
+            padding: 20px 30px !important;
+            border-radius: 12px !important;
+            margin-bottom: 15px !important;
+            font-size: 22px !important;
+        }
+        
+        /* Results container */
+        #results-container {
+            padding: 45px !important;
+            border-radius: 25px !important;
+        }
+        
+        .results-header h2 {
+            font-size: 3rem !important;
+        }
+        
+        .results-actions button {
+            padding: 20px 30px !important;
+            border-radius: 12px !important;
+            font-size: 22px !important;
+        }
+        
+        /* Attraction cards */
+        #attractions-list {
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)) !important;
+            gap: 35px !important;
+        }
+        
+        .attraction-card {
+            border-radius: 20px !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .attraction-image {
+            height: 300px !important;
+        }
+        
+        .attraction-details {
+            padding: 30px !important;
+        }
+        
+        .attraction-name {
+            font-size: 28px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .attraction-address, .attraction-rating, .attraction-open {
+            font-size: 20px !important;
+            margin-bottom: 12px !important;
+        }
+        
         .user-profile {
             display: flex;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 35px !important;
             background-color: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 8px;
+            padding: 30px !important;
+            border-radius: 15px !important;
         }
         
         .profile-pic {
-            width: 50px;
-            height: 50px;
+            width: 85px !important;
+            height: 85px !important;
             border-radius: 50%;
             object-fit: cover;
-            margin-right: 15px;
-            border: 2px solid white;
+            margin-right: 25px !important;
+            border: 3px solid white !important;
         }
         
         .user-info {
@@ -32,12 +174,12 @@
         
         .user-name {
             font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 3px;
+            font-size: 1.6rem !important;
+            margin-bottom: 10px !important;
         }
         
         .user-location {
-            font-size: 0.9rem;
+            font-size: 1.3rem !important;
             color: #bdc3c7;
         }
         
@@ -47,11 +189,21 @@
             border: none;
             cursor: pointer;
             transition: color 0.3s;
-            font-size: 1.2rem;
+            font-size: 1.8rem !important;
         }
         
         .edit-profile:hover {
             color: white;
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 350px !important;
+            }
+            
+            .main-content {
+                margin-left: 350px !important;
+            }
         }
 
         @media (max-width: 768px) {
@@ -60,15 +212,16 @@
             }
             
             .sidebar {
-                transform: translateX(-300px);
+                transform: translateX(-400px);
+                width: 100% !important;
             }
             
             .main-content {
-                margin-left: 0;
+                margin-left: 0 !important;
             }
             
             body:not(.sidebar-active) .sidebar {
-                transform: translateX(-300px);
+                transform: translateX(-400px);
             }
             
             body.sidebar-active .sidebar {
@@ -85,13 +238,16 @@
             position: relative;
             transition: all 0.3s ease;
             border-left: 0px solid transparent;
+            padding: 25px 30px !important;
+            margin-bottom: 18px !important;
+            border-radius: 12px !important;
         }
         
         .search-item:hover, .favorite-item:hover {
-            background-color: var(--sidebar-item-hover);
-            transform: translateY(-2px);
-            border-left: 4px solid var(--button-primary);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            border-left: 5px solid var(--button-primary);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
         }
         
         .search-item:hover i, .favorite-item:hover i {
@@ -101,16 +257,18 @@
         
         .search-item i, .favorite-item i {
             transition: all 0.3s ease;
+            font-size: 2rem !important;
+            margin-right: 18px !important;
         }
         
         /* Improved theme toggle visibility */
         .theme-toggle {
-            font-size: 24px;
+            font-size: 28px !important;
             color: var(--sidebar-text);
             cursor: pointer;
             background: rgba(0, 0, 0, 0.2);
-            width: 40px;
-            height: 40px;
+            width: 70px !important;
+            height: 70px !important;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -118,9 +276,32 @@
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
         
+        .theme-toggle i {
+            font-size: 28px !important;
+        }
+        
         .theme-toggle:hover {
             transform: rotate(30deg);
             background: rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Empty items */
+        .empty-item {
+            font-size: 1.3rem !important;
+            padding: 20px !important;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Delete favorite button */
+        .delete-favorite {
+            font-size: 1.5rem !important;
+            width: 45px !important;
+            height: 45px !important;
+        }
+        
+        .delete-favorite i {
+            font-size: 1.5rem !important;
         }
     </style>
 </head>
